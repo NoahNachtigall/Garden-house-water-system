@@ -19,7 +19,7 @@ unsigned long currentTime;
 const unsigned long period = 3000;
 unsigned long startLight;
 unsigned long currentLight;
-const unsigned long lightPeriod = 10.000;
+const unsigned long lightPeriod = 10000;
 float currentTempValue = 0;
 int addr = 0;
 
@@ -77,7 +77,7 @@ void loop()
       lcd.print(light);
       EEPROM.write(addr, currentTempValue);
       addr = addr + 1;
-      if (addr = EEPROM.length()){
+      if (addr == EEPROM.length()){
         addr = 0;
       }
       
