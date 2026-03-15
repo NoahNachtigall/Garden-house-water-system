@@ -67,28 +67,35 @@ void loop()
     currentLight = millis();
     currentTempValue = (value / 1.8 - 32) / 10;
     stepper.run();
+    led
 
     if (light <= 20){
       if (currentLight - startLight >= lightPeriod){
-        lcd.setRGB(100, 100, 100);
+        lcd.setRGB(0, 0, 50);
         startLight = currentLight;
       }
     }
      else {
-      lcd.setRGB(255, 255, 255);
+      lcd.setRGB(0, 0, 255);
     }
     
     
-    if (digitalRead(button) == LOW) {   // Knopf gedrückt
-    delay(200);                          // kleines Entprellen
+    if (digitalRead(button) == HIGH) {   // Knopf gedrückt
+    //delay(200);                          // kleines Entprellen
 
-    valveOpen = !valveOpen;              // Zustand wechseln
+                  // Zustand wechseln
 
     if (valveOpen) {
-      stepper.moveTo(valveOpenSteps);    // Ventil auf
+    
+      stepper.moveTo(valveOpenSteps);  //Ventil auf
+     
     } else {
+  
       stepper.moveTo(0);                 // Ventil zu
+
     }
+
+    valveOpen = !valveOpen;
     
     } 
      
@@ -107,10 +114,11 @@ void loop()
       Serial.println("Light:");
       Serial.println(light);
       Serial.println("----");
-      if (valveOpen == true){
-         Serial.println("Valve Open");
+      Serial.println("Valve State:");
+      if (valveOpen){
+        Serial.println("Valve Open");
       }
-      if (valveOpen == false){
+      else{
         Serial.println("Valve Closed");
       }
       EEPROM.write(addr, currentTempValue);
@@ -133,9 +141,11 @@ void loop()
 /*  ----Problems to fix:----
    - potentiometer to adjust brightness not working(idk why) 
    - eeprom memory fix(saved memory not readable)
+   
    */
 
 /*  ------IDEAS--------
-    -data send to computer per wifi(concept in serial monitor)*/
+    -data send to computer per wifi(concept in serial monitor)
+    -ventil status light*/
 
 
